@@ -16,32 +16,22 @@ TEXT_COLOR = "#333333"
 class WeatherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Weather App")
+        self.root.title("MASA Weather Nexus")
         self.root.geometry("520x540")
         self.root.resizable(False, False)
         self.root.configure(bg=BG_COLOR)
 
         self.build_ui()
 
-    # ---------------- UI ----------------
     def build_ui(self):
         tk.Label(
-            self.root,
-            text="Weather Forecast",
-            font=("Segoe UI", 20, "bold"),
-            bg=BG_COLOR,
-            fg=TEXT_COLOR
+            self.root, text="Weather Forecast", font=("Segoe UI", 20, "bold"), bg=BG_COLOR, fg=TEXT_COLOR
         ).pack(pady=20)
 
         search_frame = tk.Frame(self.root, bg=BG_COLOR)
         search_frame.pack(pady=5)
 
-        self.city_entry = tk.Entry(
-            search_frame,
-            font=("Segoe UI", 13),
-            width=24,
-            justify="center"
-        )
+        self.city_entry = tk.Entry(search_frame, font=("Segoe UI", 13), width=24, justify="center")
         self.city_entry.pack(side="left", padx=10)
 
         self.add_placeholder()
@@ -56,32 +46,19 @@ class WeatherApp:
             fg="white",
             relief="flat",
             width=10,
-            command=self.get_weather
+            command=self.get_weather,
         ).pack(side="left")
 
-        self.current_card = tk.Frame(
-            self.root,
-            bg=CARD_COLOR,
-            bd=1,
-            relief="solid"
-        )
+        self.current_card = tk.Frame(self.root, bg=CARD_COLOR, bd=1, relief="solid")
         self.current_card.pack(padx=20, pady=20, fill="x")
 
         self.current_label = tk.Label(
-            self.current_card,
-            font=("Segoe UI", 12),
-            bg=CARD_COLOR,
-            fg=TEXT_COLOR,
-            justify="left"
+            self.current_card, font=("Segoe UI", 12), bg=CARD_COLOR, fg=TEXT_COLOR, justify="left"
         )
         self.current_label.pack(padx=15, pady=15)
 
         tk.Label(
-            self.root,
-            text="3-Day Forecast",
-            font=("Segoe UI", 14, "bold"),
-            bg=BG_COLOR,
-            fg=TEXT_COLOR
+            self.root, text="3-Day Forecast", font=("Segoe UI", 14, "bold"), bg=BG_COLOR, fg=TEXT_COLOR
         ).pack(pady=10)
 
         self.forecast_frame = tk.Frame(self.root, bg=BG_COLOR)
@@ -89,29 +66,15 @@ class WeatherApp:
 
         self.forecast_labels = []
         for _ in range(3):
-            card = tk.Frame(
-                self.forecast_frame,
-                bg=CARD_COLOR,
-                bd=1,
-                relief="solid",
-                width=140,
-                height=140
-            )
+            card = tk.Frame(self.forecast_frame, bg=CARD_COLOR, bd=1, relief="solid", width=140, height=140)
             card.pack(side="left", padx=10)
             card.pack_propagate(False)
 
-            lbl = tk.Label(
-                card,
-                font=("Segoe UI", 11),
-                bg=CARD_COLOR,
-                fg=TEXT_COLOR,
-                justify="center"
-            )
+            lbl = tk.Label(card, font=("Segoe UI", 11), bg=CARD_COLOR, fg=TEXT_COLOR, justify="center")
             lbl.pack(expand=True)
 
             self.forecast_labels.append(lbl)
 
-    # ---------------- PLACEHOLDER ----------------
     def add_placeholder(self):
         self.city_entry.insert(0, "Enter city")
         self.city_entry.config(fg="gray")
@@ -125,7 +88,6 @@ class WeatherApp:
         if not self.city_entry.get():
             self.add_placeholder()
 
-    # ---------------- WEATHER ----------------
     def get_weather(self):
         city = self.city_entry.get().strip()
 
@@ -147,10 +109,7 @@ class WeatherApp:
             self.add_placeholder()
 
         except requests.exceptions.RequestException:
-            messagebox.showerror(
-                "Error",
-                "Unable to fetch weather data.\nCheck your internet connection."
-            )
+            messagebox.showerror("Error", "Unable to fetch weather data.\nCheck your internet connection.")
 
     def display_weather(self, data):
         current = data["current_condition"][0]
@@ -177,7 +136,6 @@ class WeatherApp:
                 )
             )
 
-    # ---------------- ICON ----------------
     def icon(self, desc):
         d = desc.lower()
         if "sun" in d or "clear" in d:
@@ -195,7 +153,6 @@ class WeatherApp:
         return "🌡"
 
 
-# ---------------- RUN ----------------
 if __name__ == "__main__":
     root = tk.Tk()
     WeatherApp(root)
